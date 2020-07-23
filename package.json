@@ -1,6 +1,6 @@
 {
-  "name": "bbrun",
-  "version": "0.10.1",
+  "name": "@opsystech/bbrun",
+  "version": "0.10.4",
   "description": "Run your Bitbucket Pipelines locally",
   "main": "index.js",
   "preferGlobal": true,
@@ -13,14 +13,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mserranom/bbrun.git"
+    "url": "git+https://github.com/HarelAshwal/bbrun.git"
   },
   "author": "mserranom@gmail.com",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mserranom/bbrun/issues"
+    "url": "https://github.com/HarelAshwal/bbrun/issues"
   },
-  "homepage": "https://github.com/mserranom/bbrun#readme",
+  "homepage": "https://github.com/HarelAshwal/bbrun#readme",
   "dependencies": {
     "check-types": "11.0.x",
     "js-yaml": "3.13.x",

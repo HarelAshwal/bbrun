@@ -1,0 +1,12 @@
+pipelines:
+  default:
+    - step:
+          name: test
+          image: ubuntu
+          script:
+            - echo "testing stuff"
+            - git init
+            - curl -X POST 
+            - echo "more testing stuff"
+
+     

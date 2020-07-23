@@ -5,6 +5,7 @@ const fs = require("fs");
 const child_process = require("child_process");
 const path = require('path');
 const os = require('os');
+const { strict } = require("assert");
 
 const BUILD_SCRIPT = ".bbrun.sh";
 const TMP_DIR = '.bbrun';
@@ -19,8 +20,11 @@ function deleteBuildScript() {
   }
 }
 
-function prepareBuildScript(commands) {
+
+function prepareBuildScript(commands, excludes) {
   deleteBuildScript();
+  // filter excluded commands 
+  commands = commands.filter((cmd) => { return !excludes.some(ex => cmd.startsWith(ex)) })
   const script = "#!/usr/bin/env sh\n" + commands.join("\n");
   fs.writeFileSync(BUILD_SCRIPT, script);
 }
@@ -37,7 +41,7 @@ function checkExists() {
   }
 }
 
-function run(commands, image, dryRun, interactive, workDir, ignoreFolder) {
+function run(commands, image, dryRun, interactive, workDir, ignoreFolder, excludes) {
   let ignore = '';
   if (typeof ignoreFolder !== "undefined") {
     if (typeof ignoreFolder === "string") {
@@ -61,7 +65,7 @@ function run(commands, image, dryRun, interactive, workDir, ignoreFolder) {
       stdio: "inherit"
     });
   } else {
-    prepareBuildScript(commands);
+    prepareBuildScript(commands, excludes);
     exec(`docker ${cmd}`, { async: false });
     deleteBuildScript();
   }
@@ -78,19 +82,19 @@ function extractImageName(image) {
 }
 
 function deleteFolderSync(path) {
-    var files = [];
-    if( fs.existsSync(path) ) {
-        files = fs.readdirSync(path);
-        files.forEach(function(file,index){
-            var curPath = path + "/" + file;
-            if(fs.lstatSync(curPath).isDirectory()) { // recurse
-                deleteFolderSync(curPath);
-            } else { // delete file
-                fs.unlinkSync(curPath);
-            }
-        });
-        fs.rmdirSync(path);
-    }
+  var files = [];
+  if (fs.existsSync(path)) {
+    files = fs.readdirSync(path);
+    files.forEach(function (file, index) {
+      var curPath = path + "/" + file;
+      if (fs.lstatSync(curPath).isDirectory()) { // recurse
+        deleteFolderSync(curPath);
+      } else { // delete file
+        fs.unlinkSync(curPath);
+      }
+    });
+    fs.rmdirSync(path);
+  }
 }
 
 module.exports.checkExists = checkExists;

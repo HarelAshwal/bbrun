@@ -6,10 +6,13 @@ const bbrun = require("./src/bbrun");
 
 const cli = meow(
   `
+Opsys bbrun
+***********  
 Usage
   $ bbrun <step> <options>
 
 Options
+    --exclude (-e), excluded commands, defauults to "git" and "curl" and "docker push"
     --template (-t), build template, defaults to "bitbucket-pipelines.yml"
     --pipeline (-p), pipeline to execute. "default" if not provided
     --env (-e), define environment variables for execution
@@ -32,9 +35,17 @@ Examples:
   Define an environment variable
     $ bbrun test --env EDITOR=vim
     $ bbrun test --env "EDITOR=vim, USER=root"
+  Define excluded commands
+    $ bbrun --exclude git --exclude curl  
 `,
   {
     flags: {
+      exclude: {
+        type: "string",
+        alias: "e",
+        default: ['git', 'curl', 'docker push'],
+        isMultiple: true,
+      },
       pipeline: {
         type: "string",
         alias: "p"
@@ -68,6 +79,7 @@ Examples:
 );
 
 try {
+  console.log("excluded commands : " + cli.flags.exclude.join(','));
   bbrun(cli.flags, cli.input[0]);
 } catch (error) {
   console.error(error.message);
