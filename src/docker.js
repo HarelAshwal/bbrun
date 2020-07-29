@@ -54,7 +54,7 @@ function run(commands, image, dryRun, interactive, workDir, ignoreFolder, cleanR
     ? `run --rm -P -it --entrypoint=/bin/bash -v ${pwd()}:${workDir} -w ${workDir} ${image}`
     : `run --rm -P -v ${pwd()}:${workDir} -w ${workDir} ${image} bash ${BUILD_SCRIPT}`;
 
-  if (cleanRun) cmd = `run --name bbrun -d -P ${image} /bin/bash -c "trap : TERM INT; sleep infinity & wait"`;
+  if (cleanRun) cmd = `run --name bbrun -d -t -P ${image} /bin/bash -c "trap : TERM INT; sleep infinity & wait"`;
 
   if (dryRun) {
     console.log(`docker command:\n\tdocker ${cmd}`);
@@ -68,8 +68,17 @@ function run(commands, image, dryRun, interactive, workDir, ignoreFolder, cleanR
     prepareBuildScript(commands);
 
     if (cleanRun) {
+      // clean older docker
       exec(`docker rm -f bbrun`);
+
+      // run new image
       exec(`docker ${cmd}`, { async: false });
+
+      // build & copy & clean patch      
+      exec(`git diff HEAD > patch.patch`, { async: false });
+      exec(`docker cp  patch.patch bbrun:/`, { async: false });
+      exec(`del patch.patch`, { async: false });
+
       exec(`docker cp  ${BUILD_SCRIPT} bbrun:/`, { async: false });
       exec(`docker exec bbrun bash ${BUILD_SCRIPT}`, { async: false });
       exec(`docker stop bbrun`);

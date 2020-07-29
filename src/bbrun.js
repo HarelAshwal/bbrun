@@ -5,7 +5,7 @@ const assert = require("check-types").assert;
 
 const BB_TEMPLATE = "bitbucket-pipelines.yml";
 
-module.exports = function(options, stepName) {
+module.exports = function (options, stepName) {
   options.template = options.template || BB_TEMPLATE;
   options.pipeline = options.pipeline || "default";
   options.workDir = options.workDir || "/ws";

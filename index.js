@@ -84,6 +84,7 @@ Examples:
 );
 
 try {
+  if (cli.flags.cleanRun) console.log('running clean run...');
   console.log("excluded commands : " + cli.flags.exclude.join(','));
   bbrun(cli.flags, cli.input[0]);
 } catch (error) {

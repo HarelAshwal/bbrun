@@ -21,7 +21,8 @@ function exec(script, image, flags) {
 
     preScriptCommands = [
       "git clone " + url,
-      "cd imax-gui"];
+      "cd imax-gui",
+      "git apply patch.patch"];
 
     commands = preScriptCommands.concat(commands);
   }
