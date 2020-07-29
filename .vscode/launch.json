@@ -13,7 +13,8 @@
             ],
             "args": [
                 "--template",
-                "test/templates/pipeline-one-step-with-exclude.yml"
+                "test/templates/pipeline-clean-run.yml",
+                "--clean-run"
             ],
             "program": "${workspaceFolder}/index.js",
             "console": "internalConsole",

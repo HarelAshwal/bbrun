@@ -1,0 +1,10 @@
+pipelines:
+  default:
+    - step:
+          name: test
+          image: markhobson/node-chrome
+          script:
+            - echo "testing stuff"
+            - echo "more testing stuff"
+
+     

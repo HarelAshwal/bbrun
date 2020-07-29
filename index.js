@@ -12,6 +12,7 @@ Usage
   $ bbrun <step> <options>
 
 Options
+    --clean-run (-c), excute commands in clean docker enviorment
     --exclude (-e), excluded commands, defauults to "git" and "curl" and "docker push"
     --template (-t), build template, defaults to "bitbucket-pipelines.yml"
     --pipeline (-p), pipeline to execute. "default" if not provided
@@ -40,6 +41,10 @@ Examples:
 `,
   {
     flags: {
+      'clean-run': {
+        type: "boolean",
+        alias: "c",
+      },
       exclude: {
         type: "string",
         alias: "e",

@@ -25,6 +25,7 @@
     "check-types": "11.0.x",
     "js-yaml": "3.13.x",
     "meow": "4.0.x",
+    "parse-git-config": "^3.0.0",
     "shelljs": "0.8.x"
   },
   "devDependencies": {
