@@ -18,7 +18,7 @@ function exec(script, image, flags) {
   // add echo
   let commandsAddEcho = [];
   for (let c of commands) {
-    commandsAddEcho.push(`echo -e "\\e[7m${c}\\e[m"`);
+    commandsAddEcho.push(`echo -e "\\e[7m${c.split('"').join('\\"')}\\e[m"`);
     commandsAddEcho.push(c);
   }
   commands = commandsAddEcho;

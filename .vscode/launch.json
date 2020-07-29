@@ -13,7 +13,7 @@
             ],
             "args": [
                 "--template",
-                "test/templates/pipeline-clean-run.yml",
+                "test/templates/imax-gui-build-template.yaml",
             ],
             "program": "${workspaceFolder}/index.js",
             "console": "internalConsole",

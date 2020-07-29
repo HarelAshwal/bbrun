@@ -1,0 +1,33 @@
+# This is a sample build configuration for JavaScript.
+# Check our guides at https://confluence.atlassian.com/x/14UWN for more examples.
+# Only use spaces to indent your .yml configuration.
+# -----
+# You can specify a custom docker image from Docker Hub as your build environment.
+image: markhobson/node-chrome
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - node
+        script: # Modify the commands below to build your repository.
+          - apt-get update
+          - apt-get install zip curl gnupg2 wget build-essential -y
+          - npm install -g @angular/cli@8 pkg@4.3.8 typescript jest
+          - mkdir -p ~/.pkg-cache/v2.5/
+          - wget https://github.com/robertsLando/pkg-binaries/releases/download/v1.0.0/fetched-v10.15.3-linux-arm64
+          # hack: make 10.15 tagged as 10.4.1
+          - mv fetched-v10.15.3-linux-arm64 ~/.pkg-cache/v2.5/built-v10.4.1-linux-arm64
+          # common
+          - cd project/common/CommonCode
+          - npm i
+          - tsc -p tsconfig.json
+          - cd ../../..
+
+          # system manager
+          - cd project/system_manager
+          - npm i
+          - tsc -p tsconfig.json
+          - jest
+
+
