@@ -1,6 +1,6 @@
 {
   "name": "@opsystech/bbrun",
-  "version": "0.10.4",
+  "version": "0.10.5",
   "description": "Run your Bitbucket Pipelines locally",
   "main": "index.js",
   "preferGlobal": true,
