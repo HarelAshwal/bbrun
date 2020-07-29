@@ -14,7 +14,6 @@
             "args": [
                 "--template",
                 "test/templates/pipeline-clean-run.yml",
-                "--clean-run"
             ],
             "program": "${workspaceFolder}/index.js",
             "console": "internalConsole",

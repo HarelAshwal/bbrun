@@ -15,12 +15,21 @@ function exec(script, image, flags) {
   // filter excluded commands 
   commands = commands.filter((cmd) => { return !flags.exclude.some(ex => cmd.startsWith(ex)) })
 
+  // add echo
+  let commandsAddEcho = [];
+  for (let c of commands) {
+    commandsAddEcho.push(`echo -e "\\e[7m${c}\\e[m"`);
+    commandsAddEcho.push(c);
+  }
+  commands = commandsAddEcho;
+
   if (flags.cleanRun) {
     let gitConfig = parse.sync();
     let url = gitConfig['remote "origin"'].url;
 
     preScriptCommands = [
       "git clone " + url,
+      "mv patch.patch /imax-gui/",
       "cd imax-gui",
       "git apply patch.patch"];
 
