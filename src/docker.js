@@ -74,7 +74,9 @@ function run(commands, image, dryRun, interactive, workDir, ignoreFolder, cleanR
       // run new image
       exec(`docker ${cmd}`, { async: false });
 
-      // build & copy & clean patch      
+      // build & copy & clean patch     
+      // add all changes (including untracked files)
+      exec(`git add .`, { async: false });
       exec(`git diff HEAD > patch.patch`, { async: false });
       exec(`docker cp  patch.patch bbrun:/`, { async: false });
       exec(`del patch.patch`, { async: false });
