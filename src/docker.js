@@ -39,7 +39,7 @@ function checkExists() {
   }
 }
 
-function run(commands, image, dryRun, interactive, workDir, ignoreFolder, cleanRun) {
+function run(commands, image, dryRun, interactive, workDir, ignoreFolder, cleanRun, flags) {
   let ignore = '';
   if (typeof ignoreFolder !== "undefined") {
     if (typeof ignoreFolder === "string") {
@@ -50,9 +50,10 @@ function run(commands, image, dryRun, interactive, workDir, ignoreFolder, cleanR
     }).join(' ');
   }
 
+  let rm = flags.preserveDocker ? "" : "--rm";
   let cmd = interactive
-    ? `run --rm -P -it --entrypoint=/bin/bash -v ${pwd()}:${workDir} -w ${workDir} ${image}`
-    : `run --rm -P -v ${pwd()}:${workDir} -w ${workDir} ${image} bash ${BUILD_SCRIPT}`;
+    ? `run ${rm} -P -it --entrypoint=/bin/bash -v ${pwd()}:${workDir} -w ${workDir} ${image}`
+    : `run ${rm} -P -v ${pwd()}:${workDir} -w ${workDir} ${image} bash ${BUILD_SCRIPT}`;
 
   if (cleanRun) cmd = `run --name bbrun -d -t -P ${image} /bin/bash -c "trap : TERM INT; sleep infinity & wait"`;
 
@@ -82,11 +83,13 @@ function run(commands, image, dryRun, interactive, workDir, ignoreFolder, cleanR
       exec(`del patch.patch`, { async: false });
 
       exec(`docker cp  ${BUILD_SCRIPT} bbrun:/`, { async: false });
+      console.log(`docker exec bbrun bash ${BUILD_SCRIPT}`);
       exec(`docker exec bbrun bash ${BUILD_SCRIPT}`, { async: false });
       exec(`docker stop bbrun`);
-      exec(`docker rm -f bbrun`);
+      if (!flags.preserveDocker) exec(`docker rm -f bbrun`);
     }
     else {
+      console.log(cmd);
       exec(`docker ${cmd}`, { async: false });
     }
     deleteBuildScript();

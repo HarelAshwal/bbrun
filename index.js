@@ -12,6 +12,7 @@ Usage
   $ bbrun <step> <options>
 
 Options
+    --preserve-docker (-p), preserve docker container
     --clean-run (-c), excute commands in clean docker enviorment
     --exclude (-e), excluded commands, defauults to "git" and "curl" and "docker push"
     --template (-t), build template, defaults to "bitbucket-pipelines.yml"
@@ -41,6 +42,10 @@ Examples:
 `,
   {
     flags: {
+      'preserve-docker': {
+        type: "boolean",
+        alias: "p",
+      },
       'clean-run': {
         type: "boolean",
         alias: "c",
@@ -84,6 +89,7 @@ Examples:
 );
 
 try {
+  if (cli.flags.preserveDocker) console.log('preserving docker...');
   if (cli.flags.cleanRun) console.log('running clean run...');
   console.log("excluded commands : " + cli.flags.exclude.join(','));
   bbrun(cli.flags, cli.input[0]);

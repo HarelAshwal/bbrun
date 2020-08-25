@@ -36,7 +36,7 @@ function exec(script, image, flags) {
     commands = preScriptCommands.concat(commands);
   }
 
-  docker.run(commands, image, flags.dryRun, flags.interactive, flags.workDir, flags.ignoreFolder, flags.cleanRun);
+  docker.run(commands, image, flags.dryRun, flags.interactive, flags.workDir, flags.ignoreFolder, flags.cleanRun, flags);
 }
 
 module.exports.exec = exec;
