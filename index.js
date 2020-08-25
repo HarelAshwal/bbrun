@@ -12,7 +12,7 @@ Usage
   $ bbrun <step> <options>
 
 Options
-    --preserve-docker (-p), preserve docker container
+    --preserve-docker (-s), preserve docker container
     --clean-run (-c), excute commands in clean docker enviorment
     --exclude (-e), excluded commands, defauults to "git" and "curl" and "docker push"
     --template (-t), build template, defaults to "bitbucket-pipelines.yml"
@@ -44,7 +44,7 @@ Examples:
     flags: {
       'preserve-docker': {
         type: "boolean",
-        alias: "p",
+        alias: "s",
       },
       'clean-run': {
         type: "boolean",
